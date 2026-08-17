@@ -1,0 +1,47 @@
+# recruit 部署编排: postgres + server + web (nginx)
+# server 连 postgres, web 由 nginx 托管并同域反代 /trpc 到 server
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-recruit}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-recruit}
+      POSTGRES_DB: ${POSTGRES_DB:-recruit}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U ${POSTGRES_USER:-recruit}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-recruit}:${POSTGRES_PASSWORD:-recruit}@postgres:5432/${POSTGRES_DB:-recruit}?schema=public
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET 必须设置}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
+      PORT: 3000
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost}
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-80}:80"
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:

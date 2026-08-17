@@ -1,0 +1,36 @@
+# recruit-server 生产镜像: 在 monorepo 上下文构建, 产出 tsup bundle 后用 node 跑
+# 构建上下文为仓库根目录 (见 docker-compose build.context)
+
+FROM node:22-alpine AS base
+RUN corepack enable
+WORKDIR /app
+
+# 依赖层: 复制 workspace 清单, 装全量依赖 (含 shared 源码依赖)
+FROM base AS deps
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+COPY shared/package.json ./shared/
+COPY server/package.json ./server/
+COPY web/package.json ./web/
+RUN pnpm install --frozen-lockfile --filter @qnxg-recruit/server... --filter @qnxg-recruit/shared
+
+# 构建层: 复制源码, 生成 Prisma client, tsup 打包
+FROM deps AS build
+COPY shared ./shared
+COPY server ./server
+COPY tsconfig.base.json ./
+WORKDIR /app/server
+RUN pnpm exec prisma generate
+RUN pnpm run build
+
+# 运行层: 只带产物 + 生产依赖 + prisma schema/引擎
+FROM base AS runner
+ENV NODE_ENV=production
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/server/node_modules ./server/node_modules
+COPY --from=build /app/server/dist ./server/dist
+COPY --from=build /app/server/prisma ./server/prisma
+COPY --from=build /app/server/package.json ./server/
+WORKDIR /app/server
+EXPOSE 3000
+# 启动前跑迁移, 再起服务
+CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/index.js"]

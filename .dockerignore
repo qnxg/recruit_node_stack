@@ -1,0 +1,15 @@
+**/node_modules
+**/dist
+**/lib
+.git
+.github
+.husky
+.whatsnext
+**/.env
+**/.env.*
+!**/.env.example
+**/*.local
+.DS_Store
+.idea
+.vscode
+server/prisma/generated
