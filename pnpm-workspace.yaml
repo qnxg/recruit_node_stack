@@ -16,15 +16,12 @@ overrides:
   # @types/node 拉的 undici-types@6.21.0 无 provenance, 触发 no-downgrade;
   # 6.19.2 是最后一个带证明的 6.x, 仅是 fetch 类型定义, 锁到它兼容且安全
   undici-types: 6.19.2
-# 允许运行构建脚本的依赖 (Prisma 需生成 client, esbuild 需装原生二进制)
-onlyBuiltDependencies:
-  - "@prisma/client"
-  - "@prisma/engines"
-  - esbuild
-  - prisma
 
+# 放行运行构建脚本的依赖 (Prisma 生成 client, esbuild 装原生二进制).
+# pnpm 11.22 用 allowBuilds 映射记录放行决定, 缺失会 ERR_PNPM_IGNORED_BUILDS
+# 并以非 0 退出, 导致 CI 的 pnpm install 失败. 由 `pnpm approve-builds --all` 写入
 allowBuilds:
-  "@prisma/client": set this to true or false
-  "@prisma/engines": set this to true or false
-  esbuild: set this to true or false
-  prisma: set this to true or false
+  "@prisma/client": true
+  "@prisma/engines": true
+  esbuild: true
+  prisma: true
