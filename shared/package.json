@@ -1,0 +1,23 @@
+{
+  "name": "@qnxg-recruit/shared",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "recruit 前后端共享契约: zod schema / DTO 类型 / 枚举",
+  "author": "Twisuki",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas": "./src/schemas/index.ts",
+    "./enums": "./src/enums/index.ts",
+    "./types": "./src/types/index.ts"
+  },
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
