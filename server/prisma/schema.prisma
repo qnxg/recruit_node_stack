@@ -1,0 +1,97 @@
+// recruit-server 数据模型
+// Node 侧驼峰, PostgreSQL 侧下划线, 通过 @map / @@map 映射
+// 枚举英文标识与 @qnxg-recruit/shared 的 enums 保持一致
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// 岗位状态: 招聘中 / 暂停 / 已关闭 / 已过期 / 已取消
+enum PositionStatus {
+  recruiting
+  paused
+  closed
+  expired
+  cancelled
+}
+
+/// 投递状态: 草稿 / 初筛 / 面试 / 通过 / 拒绝 / 撤回 / 失效
+enum ApplicationStatus {
+  draft
+  screening
+  interview
+  passed
+  rejected
+  withdrawn
+  invalidated
+}
+
+/// 用户. 部分信息 (学院 / 专业等) 由 qnxg 外部系统按 stuID 提供, 本表不存
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  /// 学号, 跨系统关联键
+  stuID String @unique @map("stu_id")
+
+  // 简历 / 个人描述字段待业务补充
+
+  createdAt    Int           @map("created_at")
+  updatedAt    Int           @map("updated_at")
+  applications Application[]
+  admin        Admin?
+
+  @@map("user")
+}
+
+/// 管理员. 当前仅关联到某个 User, 不扩展角色 / 权限粒度
+model Admin {
+  id     Int  @id @default(autoincrement())
+  userID Int  @unique @map("user_id")
+  user   User @relation(fields: [userID], references: [id])
+
+  @@map("admin")
+}
+
+/// 岗位
+model Position {
+  id          Int            @id @default(autoincrement())
+  title       String
+  description String
+  /// 展示用招聘截止日期 (原 expiredAt 改名)
+  deadline    Int
+  hot         Boolean        @default(false)
+  status      PositionStatus @default(recruiting)
+  /// 软删除标记
+  disabled    Boolean        @default(false)
+
+  createdAt    Int           @map("created_at")
+  updatedAt    Int           @map("updated_at")
+  applications Application[]
+
+  @@map("position")
+}
+
+/// 投递记录. 一人一岗唯一 (仅有效记录), 撤回可恢复复用同记录, 软删后重投新建
+model Application {
+  id         Int               @id @default(autoincrement())
+  userID     Int               @map("user_id")
+  positionID Int               @map("position_id")
+  status     ApplicationStatus @default(draft)
+  /// 软删除标记
+  disabled   Boolean           @default(false)
+
+  createdAt Int @map("created_at")
+  updatedAt Int @map("updated_at")
+
+  user     User     @relation(fields: [userID], references: [id])
+  position Position @relation(fields: [positionID], references: [id])
+
+  // "仅有效记录唯一" 用部分唯一索引实现 (见下), 普通复合索引先建以便查询
+  @@index([userID, positionID])
+  @@map("application")
+}
