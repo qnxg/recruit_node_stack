@@ -1,8 +1,8 @@
 import type { PositionDto, PositionListInput, PositionUpsertInput } from "@qnxg-recruit/shared"
 import { TRPCError } from "@trpc/server"
-import { positionRepo } from "@/repos/position"
-import { toPositionDto } from "@/utils/mappers"
-import { buildMeta } from "@/utils/pagination"
+import { positionRepo } from "../repos/position"
+import { toPositionDto } from "../utils/mappers"
+import { buildMeta } from "../utils/pagination"
 
 /**
  * 岗位业务. 唯一写业务的地方, 通过 repo 访问数据

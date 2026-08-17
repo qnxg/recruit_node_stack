@@ -1,9 +1,9 @@
 import type { AuthUser, LoginInput, LoginResult } from "@qnxg-recruit/shared"
 import { TRPCError } from "@trpc/server"
-import { adminRepo } from "@/repos/admin"
-import { userRepo } from "@/repos/user"
-import { signToken } from "@/utils/jwt"
-import { toUserDto } from "@/utils/mappers"
+import { adminRepo } from "../repos/admin"
+import { userRepo } from "../repos/user"
+import { signToken } from "../utils/jwt"
+import { toUserDto } from "../utils/mappers"
 
 /**
  * 鉴权业务. 登录手段属业务待定, 当前先按 stuID 查用户搭壳,

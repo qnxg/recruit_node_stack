@@ -1,6 +1,6 @@
 import type { Position, User } from "@prisma/client"
 import type { ApplicationDto, PositionDto, UserDto } from "@qnxg-recruit/shared"
-import type { ApplicationWithRelations } from "@/repos/application"
+import type { ApplicationWithRelations } from "../repos/application"
 
 /**
  * Prisma 实体 → 对外 DTO 的映射. 移除内部字段 (外键 / 软删标记),

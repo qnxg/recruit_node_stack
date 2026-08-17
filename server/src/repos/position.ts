@@ -1,7 +1,7 @@
 import type { Position, Prisma } from "@prisma/client"
 import type { PositionListInput, PositionUpsertInput } from "@qnxg-recruit/shared"
-import { prisma } from "@/db/client"
-import { nowTs } from "@/utils/time"
+import { prisma } from "../db/client"
+import { nowTs } from "../utils/time"
 
 /**
  * Position 数据访问. 默认过滤软删除记录

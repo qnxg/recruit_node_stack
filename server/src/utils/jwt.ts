@@ -1,6 +1,6 @@
 import type { SignOptions } from "jsonwebtoken"
 import jwt from "jsonwebtoken"
-import { env } from "@/config/env"
+import { env } from "../config/env"
 
 /**
  * JWT 载荷. 只存 userID, 是否 admin 后端每次查库判定 (可撤销, 实时)

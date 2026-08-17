@@ -4,7 +4,7 @@ import {
   applicationStatusUpdateInputSchema,
 } from "@qnxg-recruit/shared"
 import { z } from "zod"
-import { applicationService } from "@/services/application"
+import { applicationService } from "../../services/application"
 import { adminProcedure, protectedProcedure, router } from "../trpc"
 
 const idInput = z.object({ id: z.number().int() })

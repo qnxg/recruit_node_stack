@@ -1,5 +1,5 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express"
-import { verifyToken } from "@/utils/jwt"
+import { verifyToken } from "../utils/jwt"
 
 /**
  * 从请求头解析 Bearer token, 得到当前 userID (未登录为 null).

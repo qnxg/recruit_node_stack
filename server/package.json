@@ -5,6 +5,9 @@
   "private": true,
   "description": "recruit-server: Node + Express + trpc + Prisma 后端",
   "author": "Twisuki",
+  "exports": {
+    "./router": "./src/trpc/routers/index.ts"
+  },
   "main": "dist/index.js",
   "prisma": {
     "schema": "prisma/schema.prisma"

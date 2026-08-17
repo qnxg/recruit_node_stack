@@ -1,6 +1,6 @@
 import { positionListInputSchema, positionUpsertInputSchema } from "@qnxg-recruit/shared"
 import { z } from "zod"
-import { positionService } from "@/services/position"
+import { positionService } from "../../services/position"
 import { adminProcedure, publicProcedure, router } from "../trpc"
 
 const idInput = z.object({ id: z.number().int() })
