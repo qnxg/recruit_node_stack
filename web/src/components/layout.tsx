@@ -20,7 +20,7 @@ export function Layout() {
     <div className="flex h-[100dvh] w-screen flex-col">
       {/* 桌面端顶部导航栏 */}
       <header className="hidden shrink-0 border-b sm:block">
-        <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+        <nav className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4">
           <div className="text-lg font-semibold text-primary">易千招新</div>
           <div className="flex items-center gap-1">
             {NAV_ITEMS.map(item => (
