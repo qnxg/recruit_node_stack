@@ -13,21 +13,25 @@ const NAV_ITEMS = [
 
 /**
  * 应用外壳: 占满视口, 根不滚动, 滚动只发生在 main.
- * 移动端底部 tabbar, 桌面端 (>= sm) 侧边 nav
+ * 移动端底部 tabbar, 桌面端 (>= sm) 顶部 navbar (左 logo 标题, 右导航按钮)
  */
 export function Layout() {
   return (
-    <div className="flex h-[100dvh] w-screen flex-col sm:flex-row">
-      {/* 桌面端侧边导航 */}
-      <nav className="hidden shrink-0 border-r sm:flex sm:w-56 sm:flex-col sm:gap-1 sm:p-4">
-        <div className="mb-4 px-3 text-lg font-semibold text-primary">易千招新</div>
-        {NAV_ITEMS.map(item => (
-          <NavItem key={item.to} {...item} />
-        ))}
-      </nav>
+    <div className="flex h-[100dvh] w-screen flex-col">
+      {/* 桌面端顶部导航栏 */}
+      <header className="hidden shrink-0 border-b sm:block">
+        <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+          <div className="text-lg font-semibold text-primary">易千招新</div>
+          <div className="flex items-center gap-1">
+            {NAV_ITEMS.map(item => (
+              <NavItem key={item.to} {...item} />
+            ))}
+          </div>
+        </nav>
+      </header>
 
       {/* 主滚动区 */}
-      <main className="min-w-0 flex-1 overflow-y-auto sm:min-w-[56rem]">
+      <main className="min-w-0 flex-1 overflow-y-auto">
         <div className="mx-auto max-w-4xl p-4 pb-24 sm:pb-4">
           <Outlet />
         </div>
@@ -56,11 +60,11 @@ function NavItem({ to, label, icon: Icon, end }: NavEntry) {
       to={to}
       end={end}
       className={({ isActive }) => cn(
-        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
         isActive ? "bg-primary/10 text-primary" : "text-foreground hover:bg-accent",
       )}
     >
-      <Icon className="size-5" />
+      <Icon className="size-4" />
       {label}
     </NavLink>
   )
