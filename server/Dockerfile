@@ -32,5 +32,6 @@ COPY --from=build /app/server/prisma ./server/prisma
 COPY --from=build /app/server/package.json ./server/
 WORKDIR /app/server
 EXPOSE 3000
-# 启动前跑迁移, 再起服务
-CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/index.js"]
+# 启动前跑迁移再起服务. 直接调 prisma 二进制, 绕开 pnpm 的 workspace 依赖检查
+# (runner 层不含 shared 包目录, 经 pnpm 会误报 workspace 包缺失)
+CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy --schema=prisma/schema.prisma && node dist/index.js"]
