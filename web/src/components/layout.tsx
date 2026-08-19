@@ -1,6 +1,11 @@
 import { IconBriefcase, IconHome, IconUser } from "@tabler/icons-react"
-import { NavLink, Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import { NavLink, Outlet, useMatches } from "react-router-dom"
+import { BRAND_LOGO_SRC_SQUARE, BRAND_NAME } from "@/utils/brand"
 import { cn } from "@/utils/cn"
+
+/** 路由表未声明 title 时 (或 404) 使用的兜底 */
+const DEFAULT_TITLE = "Hi ~ | 易千工作室"
 
 /**
  * 导航项: 主页 / 岗位列表 / 个人页
@@ -13,15 +18,30 @@ const NAV_ITEMS = [
 
 /**
  * 应用外壳: 占满视口, 根不滚动, 滚动只发生在 main.
- * 移动端底部 tabbar, 桌面端 (>= sm) 顶部 navbar (左 logo 标题, 右导航按钮)
+ * 移动端底部 tabbar, 桌面端 (>= sm) 顶部 navbar (左 logo 标题, 右导航按钮).
+ *
+ * 同时根据当前路由 match 的 handle.title 同步 document.title.
  */
 export function Layout() {
+  const matches = useMatches()
+  const title = matches
+    .map(m => (m.handle as { title?: string } | undefined)?.title)
+    .filter((t): t is string => Boolean(t))
+    .pop() ?? DEFAULT_TITLE
+
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
   return (
     <div className="flex h-[100dvh] w-screen flex-col">
       {/* 桌面端顶部导航栏 */}
       <header className="hidden shrink-0 border-b sm:block">
         <nav className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4">
-          <div className="text-lg font-semibold text-primary">易千招新</div>
+          <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+            <img src={BRAND_LOGO_SRC_SQUARE} alt="" className="h-8 w-auto" />
+            <span>{BRAND_NAME}</span>
+          </div>
           <div className="flex items-center gap-1">
             {NAV_ITEMS.map(item => (
               <NavItem key={item.to} {...item} />
