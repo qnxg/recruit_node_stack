@@ -18,6 +18,9 @@ FROM deps AS build
 COPY shared ./shared
 COPY server ./server
 COPY tsconfig.base.json ./
+# shared 先 build 出 .d.ts (server build 要消费 shared/dist)
+WORKDIR /app/shared
+RUN pnpm run build
 WORKDIR /app/server
 RUN pnpm exec prisma generate
 RUN pnpm run build

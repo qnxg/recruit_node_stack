@@ -4,7 +4,8 @@ lib/
 .DS_Store
 *.local
 
-# web / server 构建产物
+# 构建产物 (构建产物模式: shared / web / server 都出 dist)
+shared/dist/
 web/dist/
 server/dist/
 

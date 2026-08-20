@@ -6,12 +6,12 @@ qnxg 招新招聘系统全栈 monorepo 的协作入口. 湖南大学易千网络
 
 pnpm monorepo 四包, 全栈 Node 22 + 全 ESM, tsconfig `target: ES2023`:
 
-| 目录      | 包名                   | 角色                                                                   |
-| --------- | ---------------------- | ---------------------------------------------------------------------- |
-| `/`       | `@qnxg-recruit/root`   | workspace 根: 公用 lint/format, husky, commitlint, 一键启停 script     |
-| `/shared` | `@qnxg-recruit/shared` | 前后端共享契约: zod schema / DTO 类型 / 枚举 (不构建, 直供 `.ts` 源码) |
-| `/server` | `@qnxg-recruit/server` | recruit-server: Node + Express + trpc v11 + Prisma                     |
-| `/web`    | `@qnxg-recruit/web`    | recruit-web: Vite + React + Tailwind 4 + shadcn                        |
+| 目录      | 包名                   | 角色                                                                                 |
+| --------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| `/`       | `@qnxg-recruit/root`   | workspace 根: 公用 lint/format, husky, commitlint, 一键启停 script                   |
+| `/shared` | `@qnxg-recruit/shared` | 前后端共享契约: zod schema / DTO 类型 / 枚举 (构建产物: `dist/` 仅 `.d.ts`)          |
+| `/server` | `@qnxg-recruit/server` | recruit-server: Node + Express + trpc v11 + Prisma (构建产物: `dist/` `.js`+`.d.ts`) |
+| `/web`    | `@qnxg-recruit/web`    | recruit-web: Vite + React + Tailwind 4 + shadcn                                      |
 
 ## 命令
 
@@ -19,8 +19,8 @@ pnpm monorepo 四包, 全栈 Node 22 + 全 ESM, tsconfig `target: ES2023`:
 
 - `pnpm dev` —— 并行拉起 web (5173) + server (3000)
 - `pnpm dev:web` / `pnpm dev:server` —— 单独启动
-- `pnpm build` —— server (tsup) + web (vite) 生产构建
-- `pnpm check` —— 递归各包 `tsc --noEmit`
+- `pnpm build` —— shared → server → web 顺序构建 (server 内含 `prisma generate` + `tsup`)
+- `pnpm check` —— `pnpm build` 跑完后再各包 `tsc --noEmit`
 - `pnpm lint` / `pnpm fix` —— eslint 检查 / 自动修复
 
 server 专属 (`pnpm --filter @qnxg-recruit/server run <script>`):
@@ -53,7 +53,7 @@ server 专属 (`pnpm --filter @qnxg-recruit/server run <script>`):
 - `src/trpc/`: router / procedure 定义 + 入参 zod 校验 + 鉴权中间件 (`protectedProcedure` / `adminProcedure`).
 - `src/services/`: 业务逻辑, 唯一写业务的地方, 不裸调 Prisma.
 - `src/repos/`: 收拢 Prisma 调用; 投递记录每次 get 顺带做失效检测.
-- 跨包被 web 消费的源码用相对导入 (不用 `@/` 别名, 否则跨包编译解析错位).
+- 跨包消费走构建产物 (`package.json#exports` 的 `types` 条件), consumer (web) 永远读 `dist/`, 永不接触源码. 源码内部可用 `@/` 别名, 构建产物 (`.d.ts`) 由 `tsc-alias` 把 `@/` 重写为相对路径后供 consumer 解析.
 
 ## 架构要点
 

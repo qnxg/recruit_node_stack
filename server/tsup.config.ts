@@ -9,6 +9,6 @@ export default defineConfig({
   clean: true,
   minify: false,
   sourcemap: true,
-  // shared 直供 .ts 源码, 打进 bundle; @prisma/client 保持外置
-  noExternal: [/@qnxg-recruit\/shared/],
+  // shared 现在是带 dist 的 npm 包形态, 走 node_modules 解析 (不再内联源码)
+  // @prisma/client 保持外置
 })

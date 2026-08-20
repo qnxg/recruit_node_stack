@@ -6,7 +6,10 @@
   "description": "recruit-server: Node + Express + trpc + Prisma 后端",
   "author": "Twisuki",
   "exports": {
-    "./router": "./src/trpc/routers/index.ts"
+    "./router": {
+      "types": "./dist/trpc/routers/index.d.ts",
+      "default": "./src/trpc/routers/index.ts"
+    }
   },
   "main": "dist/index.js",
   "prisma": {
@@ -14,7 +17,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsup",
+    "build": "prisma generate && tsup && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "node dist/index.js",
     "check": "tsc --noEmit",
     "db:generate": "prisma generate",
@@ -37,6 +40,7 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.7",
     "prisma": "^6.2.1",
+    "tsc-alias": "^1.9.2",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

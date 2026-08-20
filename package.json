@@ -13,8 +13,11 @@
     "dev": "pnpm -r --parallel run dev",
     "dev:web": "pnpm --filter @qnxg-recruit/web run dev",
     "dev:server": "pnpm --filter @qnxg-recruit/server run dev",
-    "build": "pnpm --filter @qnxg-recruit/server run build && pnpm --filter @qnxg-recruit/web run build",
-    "check": "pnpm -r run check",
+    "build:shared": "pnpm --filter @qnxg-recruit/shared build",
+    "build:server": "pnpm --filter @qnxg-recruit/server build",
+    "build:web": "pnpm --filter @qnxg-recruit/web build",
+    "build": "pnpm build:shared && pnpm build:server && pnpm build:web",
+    "check": "pnpm build && pnpm -r run check",
     "lint": "eslint .",
     "fix": "eslint . --fix",
     "prepare": "husky"

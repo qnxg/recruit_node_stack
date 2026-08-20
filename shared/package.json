@@ -6,18 +6,33 @@
   "description": "recruit 前后端共享契约: zod schema / DTO 类型 / 枚举",
   "author": "Twisuki",
   "exports": {
-    ".": "./src/index.ts",
-    "./schemas": "./src/schemas/index.ts",
-    "./enums": "./src/enums/index.ts",
-    "./types": "./src/types/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "default": "./src/schemas/index.ts"
+    },
+    "./enums": {
+      "types": "./dist/enums/index.d.ts",
+      "default": "./src/enums/index.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./src/types/index.ts"
+    }
   },
+  "files": ["dist"],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "check": "tsc --noEmit"
   },
   "dependencies": {
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "tsc-alias": "^1.9.2",
     "typescript": "^5.7.3"
   }
 }

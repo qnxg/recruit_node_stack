@@ -19,9 +19,10 @@ COPY shared ./shared
 COPY server ./server
 COPY web ./web
 COPY tsconfig.base.json ./
-# web 编译期 typecheck 会引用 server 源码 (推导 AppRouter), 后者 import
-# @prisma/client 生成类型, 故构建前先生成 Prisma client
-RUN pnpm --filter @qnxg-recruit/server run db:generate
+# 构建产物模式: web typecheck 消费 server/dist 的 .d.ts, 需 shared + server 先发声明
+# (server build 还会跑 prisma generate, 依赖 server 源码 import @prisma/client 类型)
+RUN pnpm --filter @qnxg-recruit/shared build
+RUN pnpm --filter @qnxg-recruit/server build
 WORKDIR /app/web
 RUN pnpm run build
 
