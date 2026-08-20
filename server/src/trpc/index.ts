@@ -1,6 +1,6 @@
-import type { Context } from "./context"
+import type { Context } from "@/trpc/context"
 import { initTRPC, TRPCError } from "@trpc/server"
-import { adminRepo } from "../repos/admin"
+import { adminRepo } from "@/repos/admin"
 
 const t = initTRPC.context<Context>().create()
 

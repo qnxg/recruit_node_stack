@@ -1,4 +1,4 @@
-import { prisma } from "../db/client"
+import { prisma } from "@/db/client"
 
 /**
  * Admin 数据访问. admin 即某个 User 的关联记录

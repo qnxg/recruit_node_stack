@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { timestampSchema } from "./common"
+import { timestampSchema } from "@/schemas/common"
 
 /**
  * 学号: qnxg 跨系统关联键, 非空

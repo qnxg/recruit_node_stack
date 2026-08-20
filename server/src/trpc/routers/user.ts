@@ -1,6 +1,6 @@
 import { userUpdateInputSchema } from "@qnxg-recruit/shared"
-import { userService } from "../../services/user"
-import { protectedProcedure, router } from "../trpc"
+import { userService } from "@/services/user"
+import { protectedProcedure, router } from "@/trpc"
 
 export const userRouter = router({
   me: protectedProcedure

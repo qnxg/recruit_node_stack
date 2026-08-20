@@ -1,6 +1,6 @@
 import { loginInputSchema } from "@qnxg-recruit/shared"
-import { authService } from "../../services/auth"
-import { protectedProcedure, publicProcedure, router } from "../trpc"
+import { authService } from "@/services/auth"
+import { protectedProcedure, publicProcedure, router } from "@/trpc"
 
 export const authRouter = router({
   login: publicProcedure

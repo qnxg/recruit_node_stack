@@ -5,10 +5,10 @@ import type {
   ApplicationStatus,
 } from "@qnxg-recruit/shared"
 import { TRPCError } from "@trpc/server"
-import { applicationRepo } from "../repos/application"
-import { positionRepo } from "../repos/position"
-import { toApplicationDto } from "../utils/mappers"
-import { buildMeta } from "../utils/pagination"
+import { applicationRepo } from "@/repos/application"
+import { positionRepo } from "@/repos/position"
+import { toApplicationDto } from "@/utils/mappers"
+import { buildMeta } from "@/utils/pagination"
 
 /**
  * 可被 user 主动切换的状态转移白名单 (投递 / 撤回 / 恢复)

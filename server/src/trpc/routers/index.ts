@@ -1,4 +1,4 @@
-import { router } from "../trpc"
+import { router } from "@/trpc"
 import { applicationRouter } from "./application"
 import { authRouter } from "./auth"
 import { positionRouter } from "./position"

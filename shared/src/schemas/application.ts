@@ -1,8 +1,8 @@
 import { z } from "zod"
-import { APPLICATION_STATUS } from "../enums"
-import { paginationInputSchema, timestampSchema } from "./common"
-import { positionDtoSchema } from "./position"
-import { userDtoSchema } from "./user"
+import { APPLICATION_STATUS } from "@/enums"
+import { paginationInputSchema, timestampSchema } from "@/schemas/common"
+import { positionDtoSchema } from "@/schemas/position"
+import { userDtoSchema } from "@/schemas/user"
 
 export const applicationStatusSchema = z.enum(APPLICATION_STATUS)
 

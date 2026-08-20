@@ -1,6 +1,6 @@
 import type { Prisma, User } from "@prisma/client"
-import { prisma } from "../db/client"
-import { nowTs } from "../utils/time"
+import { prisma } from "@/db/client"
+import { nowTs } from "@/utils/time"
 
 /**
  * User 数据访问. 封装 Prisma 调用, service 不裸调

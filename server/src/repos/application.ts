@@ -1,7 +1,7 @@
 import type { Application, Position, Prisma, User } from "@prisma/client"
 import type { ApplicationListInput } from "@qnxg-recruit/shared"
-import { prisma } from "../db/client"
-import { nowTs } from "../utils/time"
+import { prisma } from "@/db/client"
+import { nowTs } from "@/utils/time"
 
 /**
  * 带关联的 Application (供 DTO 嵌套 user / position)

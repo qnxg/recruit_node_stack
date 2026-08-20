@@ -8,19 +8,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./src/index.ts"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./schemas": {
       "types": "./dist/schemas/index.d.ts",
-      "default": "./src/schemas/index.ts"
+      "import": "./dist/schemas/index.js",
+      "default": "./dist/schemas/index.js"
     },
     "./enums": {
       "types": "./dist/enums/index.d.ts",
-      "default": "./src/enums/index.ts"
+      "import": "./dist/enums/index.js",
+      "default": "./dist/enums/index.js"
     },
     "./types": {
       "types": "./dist/types/index.d.ts",
-      "default": "./src/types/index.ts"
+      "import": "./dist/types/index.js",
+      "default": "./dist/types/index.js"
     }
   },
   "files": ["dist"],

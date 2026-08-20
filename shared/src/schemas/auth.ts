@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { stuIDSchema } from "./user"
+import { stuIDSchema } from "@/schemas/user"
 
 /**
  * 登录入参. 登录手段属业务, 先按 stuID + 凭据搭壳, 后续再定

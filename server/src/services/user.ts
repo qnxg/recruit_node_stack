@@ -1,7 +1,7 @@
 import type { UserDto, UserUpdateInput } from "@qnxg-recruit/shared"
 import { TRPCError } from "@trpc/server"
-import { userRepo } from "../repos/user"
-import { toUserDto } from "../utils/mappers"
+import { userRepo } from "@/repos/user"
+import { toUserDto } from "@/utils/mappers"
 
 /**
  * 用户业务

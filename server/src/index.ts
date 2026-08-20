@@ -1,10 +1,10 @@
 import { createExpressMiddleware } from "@trpc/server/adapters/express"
 import cors from "cors"
 import express from "express"
-import { env } from "./config/env"
-import { createContext } from "./trpc/context"
-import { appRouter } from "./trpc/routers"
-import { logger } from "./utils/logger"
+import { env } from "@/config/env"
+import { createContext } from "@/trpc/context"
+import { appRouter } from "@/trpc/routers"
+import { logger } from "@/utils/logger"
 
 const app = express()
 
@@ -30,4 +30,4 @@ app.listen(env.PORT, () => {
 })
 
 // 复用给前端的类型契约
-export type { AppRouter } from "./trpc/routers"
+export type { AppRouter } from "@/trpc/routers"
