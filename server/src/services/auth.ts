@@ -29,6 +29,6 @@ export const authService = {
     if (!user)
       throw new TRPCError({ code: "UNAUTHORIZED", message: "用户不存在" })
     const isAdmin = await adminRepo.isAdmin(userID)
-    return { ...toUserDto(user), isAdmin, createdAt: user.createdAt }
+    return { ...toUserDto(user), isAdmin, createdAt: Number(user.createdAt) }
   },
 }

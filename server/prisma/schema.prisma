@@ -1,6 +1,7 @@
 // recruit-server 数据模型
 // Node 侧驼峰, PostgreSQL 侧下划线, 通过 @map / @@map 映射
 // 枚举英文标识与 @qnxg-recruit/shared 的 enums 保持一致
+// 时间字段用 BigInt 存入毫秒级时间戳, 默认 Int -> INT4 会溢出, 契约与转换见 utils/time.ts 约定
 
 generator client {
   provider = "prisma-client-js"
@@ -40,8 +41,8 @@ model User {
 
   // 简历 / 个人描述字段待业务补充
 
-  createdAt    Int           @map("created_at")
-  updatedAt    Int           @map("updated_at")
+  createdAt    BigInt        @map("created_at")
+  updatedAt    BigInt        @map("updated_at")
   applications Application[]
   admin        Admin?
 
@@ -63,14 +64,14 @@ model Position {
   title       String
   description String
   /// 展示用招聘截止日期 (原 expiredAt 改名)
-  deadline    Int
+  deadline    BigInt
   hot         Boolean        @default(false)
   status      PositionStatus @default(recruiting)
   /// 软删除标记
   disabled    Boolean        @default(false)
 
-  createdAt    Int           @map("created_at")
-  updatedAt    Int           @map("updated_at")
+  createdAt    BigInt        @map("created_at")
+  updatedAt    BigInt        @map("updated_at")
   applications Application[]
 
   @@map("position")
@@ -85,8 +86,8 @@ model Application {
   /// 软删除标记
   disabled   Boolean           @default(false)
 
-  createdAt Int @map("created_at")
-  updatedAt Int @map("updated_at")
+  createdAt BigInt @map("created_at")
+  updatedAt BigInt @map("updated_at")
 
   user     User     @relation(fields: [userID], references: [id])
   position Position @relation(fields: [positionID], references: [id])
