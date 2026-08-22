@@ -1,0 +1,12 @@
+-- AlterTable
+ALTER TABLE "application" ALTER COLUMN "created_at" SET DATA TYPE BIGINT,
+ALTER COLUMN "updated_at" SET DATA TYPE BIGINT;
+
+-- AlterTable
+ALTER TABLE "position" ALTER COLUMN "deadline" SET DATA TYPE BIGINT,
+ALTER COLUMN "created_at" SET DATA TYPE BIGINT,
+ALTER COLUMN "updated_at" SET DATA TYPE BIGINT;
+
+-- AlterTable
+ALTER TABLE "user" ALTER COLUMN "created_at" SET DATA TYPE BIGINT,
+ALTER COLUMN "updated_at" SET DATA TYPE BIGINT;
